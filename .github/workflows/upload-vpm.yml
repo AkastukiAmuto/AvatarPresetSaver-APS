@@ -17,15 +17,19 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Update VPM Repository
-        uses: anatawa12/vpm-update-repo-action@v1
+        uses: kurotu/vpm-action@v0.3.3
         with:
-          # required: the repo url
-          # using the value from package.json is also possible but explicit is safer
-          repo-url: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          # The base URL of your VPM repository (GitHub Pages URL)
+          base-url: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
           
-          # specific options for single-package repository
-          # finding the package.json in the root
-          package-dir: ./
+          # Path to your package.json (root)
+          package-path: ./
+          
+          # The branch to publish the index.json to
+          repo-branch: gh-pages
+          
+          # GitHub Token to push changes
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
