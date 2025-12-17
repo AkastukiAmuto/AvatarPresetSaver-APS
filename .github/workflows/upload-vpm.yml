@@ -13,6 +13,9 @@ jobs:
   update-repo:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Create Package Zip
         run: |
           # Create a flat zip (exclude hidden files/git)
@@ -24,8 +27,8 @@ jobs:
         with:
           files: ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
 
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Install vrc-get
+        uses: anatawa12/setup-vrc-get-action@v1
 
       - name: Update VPM Repository
         env:
