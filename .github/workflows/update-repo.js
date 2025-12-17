@@ -11,7 +11,7 @@ async function main() {
     // 1. Read package.json
     const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
     const version = packageJson.version;
-    
+
     // 2. Fetch existing index.json (if any)
     let repo = {
         name: REPO_NAME,
@@ -21,9 +21,19 @@ async function main() {
     };
 
     try {
-        repo = JSON.parse(fs.readFileSync('index.json', 'utf8'));
+        const data = fs.readFileSync('index.json', 'utf8');
+        const loaded = JSON.parse(data);
+        // Merge loaded data with defaults or just use it, but ensure packages exists
+        if (loaded && typeof loaded === 'object') {
+            repo = { ...repo, ...loaded };
+        }
     } catch (e) {
-        console.log("No local index.json found, creating new one.");
+        console.log("No local index.json found or invalid, creating new one.");
+    }
+
+    // Ensure packages object exists
+    if (!repo.packages) {
+        repo.packages = {};
     }
 
     // 3. Construct Package Entry
@@ -31,10 +41,10 @@ async function main() {
     // Actually for VCC, it needs a zip of the PACKAGE FOLDER, not unitypackage.
     // GitHub automatically provides source tarballs. 
     // url: https://github.com/USER/REPO/archive/refs/tags/v1.0.0.zip is problematic because of root folder.
-    
+
     // Simplest path: Use the standard "zipball" but VCC handles it fine usually?
     // Proper way: Release workflow should zip the content.
-    
+
     // Let's assume we simply point to the source zip for now.
     const downloadUrl = `https://github.com/${process.env.GITHUB_REPOSITORY}/archive/refs/tags/v${version}.zip`;
 
