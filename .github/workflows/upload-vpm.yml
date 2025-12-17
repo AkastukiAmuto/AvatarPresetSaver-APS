@@ -17,19 +17,19 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Update VPM Repository
-        uses: kurotu/vpm-action@v0.3.3
-        with:
-          # The base URL of your VPM repository (GitHub Pages URL)
-          base-url: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_EVENT_REPOSITORY_NAME: ${{ github.event.repository.name }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          # 1. Initialize/Clone the gh-pages branch to get existing index.json
+          # We check out gh-pages to a subdirectory to copy index.json
+          git fetch origin gh-pages:gh-pages || echo "No gh-pages yet"
+          git show gh-pages:index.json > index.json || echo "{}" > index.json
           
-          # Path to your package.json (root)
-          package-path: ./
-          
-          # The branch to publish the index.json to
-          repo-branch: gh-pages
-          
-          # GitHub Token to push changes
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # 2. Run Node Script
+          node .github/workflows/update-repo.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
