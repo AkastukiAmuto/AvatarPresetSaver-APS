@@ -46,7 +46,8 @@ async function main() {
     // Proper way: Release workflow should zip the content.
 
     // Let's assume we simply point to the source zip for now.
-    const downloadUrl = `https://github.com/${process.env.GITHUB_REPOSITORY}/archive/refs/tags/v${version}.zip`;
+    // Simplified URL format that redirects correctly
+    const downloadUrl = `https://github.com/${process.env.GITHUB_REPOSITORY}/archive/v${version}.zip`;
 
     const packageEntry = {
         ...packageJson,
