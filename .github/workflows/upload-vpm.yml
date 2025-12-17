@@ -27,9 +27,6 @@ jobs:
         with:
           files: ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
 
-      - name: Install vrc-get
-        uses: anatawa12/setup-vrc-get-action@v1
-
       - name: Update VPM Repository
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
