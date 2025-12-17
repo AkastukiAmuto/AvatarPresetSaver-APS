@@ -40,6 +40,24 @@
           },
           "url": "https://github.com/AkastukiAmuto/AvatarPresetSaver-APS/archive/refs/tags/v1.0.2.zip",
           "repo": "https://AkastukiAmuto.github.io/AvatarPresetSaver-APS/index.json"
+        },
+        "1.0.3": {
+          "name": "com.matsuki.avatar-preset-saver",
+          "version": "1.0.3",
+          "displayName": "Avatar Preset Saver",
+          "description": "Simple tool to save avatar presets easily.",
+          "unity": "2019.4",
+          "keywords": [
+            "VRChat",
+            "Avatar",
+            "Tools",
+            "Prefab"
+          ],
+          "author": {
+            "name": "Matsuki"
+          },
+          "url": "https://github.com/AkastukiAmuto/AvatarPresetSaver-APS/archive/v1.0.3.zip",
+          "repo": "https://AkastukiAmuto.github.io/AvatarPresetSaver-APS/index.json"
         }
       }
     }
