@@ -1,0 +1,36 @@
+name: Release VCC Package
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  update-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Update VPM Repository
+        uses: anatawa12/vpm-update-repo-action@v1
+        with:
+          # required: the repo url
+          # using the value from package.json is also possible but explicit is safer
+          repo-url: "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          
+          # specific options for single-package repository
+          # finding the package.json in the root
+          package-dir: ./
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          keep_files: true # Keep existing index.json and just update it
+          publish_branch: gh-pages
