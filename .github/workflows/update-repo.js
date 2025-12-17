@@ -47,9 +47,11 @@ async function main() {
 
     // Let's assume we simply point to the source zip for now.
     // Use the uploaded asset zip
-    // URL format: https://github.com/USER/REPO/releases/download/vVERSION/FILENAME.zip
+    // URL format: https://github.com/USER/REPO/releases/download/TAG/FILENAME.zip
+    // We use the Tag Name explicitly to match the Release URL structure
+    const tagName = process.env.TAG_NAME;
     const zipName = process.env.ZIP_NAME;
-    const downloadUrl = `https://github.com/${process.env.GITHUB_REPOSITORY}/releases/download/v${version}/${zipName}`;
+    const downloadUrl = `https://github.com/${process.env.GITHUB_REPOSITORY}/releases/download/${tagName}/${zipName}`;
 
     const packageEntry = {
         ...packageJson,
